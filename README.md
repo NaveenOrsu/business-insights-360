@@ -12,6 +12,22 @@
 
 Give Finance, Sales, Marketing and Supply Chain teams one reporting layer to track performance against last year and against target.
 
+## SQL in this repository
+
+The SQL behind the report: how gross sales become net sales, how contribution and
+rankings are worked out, and the helper table the supply chain page runs on.
+
+| File | What it does |
+| --- | --- |
+| [`sql/01_gross_sales_queries.sql`](sql/01_gross_sales_queries.sql) | Gross sales by product, month and fiscal year for a single customer |
+| [`sql/02_net_sales_base_query.sql`](sql/02_net_sales_base_query.sql) | Joins sales, product, gross price and pre-invoice discounts |
+| [`sql/03_contribution_and_rankings.sql`](sql/03_contribution_and_rankings.sql) | Top markets and customers, % contribution, top products per division |
+| [`sql/04_forecast_helper_table.sql`](sql/04_forecast_helper_table.sql) | `fact_act_est` — actual vs forecast quantity in one table |
+
+Written in MySQL. Uses CTEs, window functions (`RANK`, `DENSE_RANK`, `SUM OVER`),
+a user-defined fiscal-year function, and a UNION of two LEFT JOINs to work around
+MySQL having no FULL OUTER JOIN.
+
 ## Data model
 
 - **15 tables** — 8 fact, 7 dimension
@@ -40,24 +56,6 @@ Give Finance, Sales, Marketing and Supply Chain teams one reporting layer to tra
 - **FY2022 (est.)** — net sales ₹3.74bn at a **38.1% gross margin**, but a **−14.0% net profit**, driven by operating expenses
 - **APAC** contributed **51%** of net sales
 - **Forecast accuracy 81.2%** — net error by customer and product highlights where stock planning is weakest
-
-## Repository structure
-
-```
-powerbi/    business_insights_360.pbix
-images/     dashboard screenshots
-docs/       project summary (optional)
-```
-
-## Dashboard screenshots
-
-<!-- Upload PNGs to images/ then uncomment:
-![Finance View](images/01_finance.png)
-![Sales View](images/02_sales.png)
-![Marketing View](images/03_marketing.png)
-![Supply Chain View](images/04_supply_chain.png)
-![Executive View](images/05_executive.png)
--->
 
 ---
 
